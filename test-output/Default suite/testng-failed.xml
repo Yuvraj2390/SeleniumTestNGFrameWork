@@ -3,11 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testCases.verifyLogin">
+      <class name="testCases.priceVerifyWithMultipleSearchItems">
         <methods>
-          <include name="verifyLoginWithValidData"/>
+          <include name="endToEndTestCase"/>
+          <include name="launchBrowserAndUrl"/>
         </methods>
-      </class> <!-- testCases.verifyLogin -->
+      </class> <!-- testCases.priceVerifyWithMultipleSearchItems -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

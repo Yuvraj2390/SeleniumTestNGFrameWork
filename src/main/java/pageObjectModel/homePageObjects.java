@@ -11,6 +11,8 @@ public class homePageObjects {
 	private By myAccount = By.xpath("//a[@title='My Account']");
 	private By register = By.xpath("//a[text()='Register']");
 	private By login = By.xpath("//a[text()='Login']");
+	private By searchBox = By.xpath("//input[@name='search']");
+	private By searchButton = By.xpath("//button[@class='btn btn-default btn-lg']");
 	
 	
 	public homePageObjects(WebDriver driver) {
@@ -29,7 +31,13 @@ public class homePageObjects {
 	public WebElement clickOnLogin() {
 		return driver.findElement(login);
 	}
+	public WebElement searchBox() {
+		return driver.findElement(searchBox);
+	}
 	
+	public WebElement searchButton() {
+		return driver.findElement(searchButton);
+	}
 	
 
 }

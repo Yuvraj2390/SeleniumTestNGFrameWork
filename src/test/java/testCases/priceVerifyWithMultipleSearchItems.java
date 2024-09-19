@@ -1,43 +1,64 @@
 package testCases;
 
-import org.openqa.selenium.By;
+
 import org.testng.annotations.Test;
 
+import pageObjectModel.cartPage;
+import pageObjectModel.homePageObjects;
+import pageObjectModel.searchPage;
 import resources.baseClass;
+import resources.commonMethods;
 
 public class priceVerifyWithMultipleSearchItems extends baseClass{
 	
 		@Test()
 		public void endToEndTestCase() throws InterruptedException{
-		
+			
+			homePageObjects hp = new homePageObjects(driver);
+			hp.searchBox().sendKeys("iphone");
 			Thread.sleep(1000);
-			driver.findElement(By.xpath("//input[@name='search']")).sendKeys("iPhone");
-			Thread.sleep(1000);
-			driver.findElement(By.xpath("//button[@class='btn btn-default btn-lg']")).click();
-			Thread.sleep(1000);
-			String price = driver.findElement(By.xpath("//p[@class='price']")).getText();
+			hp.searchButton().click();
+			
+			
+			searchPage sp = new searchPage(driver);
+			String price = sp.productPrice().getText();
+			
 			String[] priceWithText = price.split(" ");
 			String onlyNumbersPrice =priceWithText[0].replaceAll("[^0-9//.]", "");
-			System.out.println(onlyNumbersPrice);
-			String iPhoneActualPriceString = "$" + onlyNumbersPrice;
+			
+			sp.iphoneAddToCartButton().click();
+			double iPhoneActualPriceDouble = Double.parseDouble(onlyNumbersPrice);
+			System.out.println(iPhoneActualPriceDouble);
 			
 			Thread.sleep(1000);
-			driver.findElement(By.xpath("//input[@name='search']")).clear();
-			Thread.sleep(1000);
-			driver.findElement(By.xpath("//input[@name='search']")).sendKeys("samsung");
-			Thread.sleep(1000);
-			driver.findElement(By.xpath("//button[@class='btn btn-default btn-lg']")).click();
-			Thread.sleep(1000);
+			hp.searchBox().clear();
 			
-			
-			String tabPrice = driver.findElement(By.xpath("//p[@class='price']")).getText();
+			Thread.sleep(1000);
+			hp.searchBox().sendKeys("samsung");
+			Thread.sleep(1000);
+			hp.searchButton().click();
+			Thread.sleep(1000);
+			String tabPrice = sp.productPrice().getText();
+					
 			String[] TabPriceWithText = tabPrice.split(" ");
 			String onlyNumbersPriceTab =TabPriceWithText[0].replaceAll("[^0-9//.]", "");
-			System.out.println(onlyNumbersPriceTab);
-			String TabActualPriceString = "$" + onlyNumbersPrice;
-			double TabActualPriceDouble = 
+			sp.samsungAddToCartButton().click();
+			double TabActualPriceDouble = Double.parseDouble(onlyNumbersPriceTab);
+			System.out.println(TabActualPriceDouble);
 			
+			double totalConstOfProducsDouble = iPhoneActualPriceDouble + TabActualPriceDouble;
 			
+			String totalCostOfTheProductsWithoutDoller = Double.toString(totalConstOfProducsDouble);
+			System.out.println(totalCostOfTheProductsWithoutDoller);
+			String totalCostOfTheProducts = "$" + totalCostOfTheProductsWithoutDoller;
+			System.out.println(totalCostOfTheProducts);
+			Thread.sleep(3000);
+			cartPage cp = new cartPage(driver);
+			cp.cartIcon().click();
+			String priceInCart = cp.cartTotalPrice().getText();
+			System.out.println(priceInCart);
+			
+			commonMethods.handleAssertion(priceInCart, totalCostOfTheProducts);
 			
 		}
 

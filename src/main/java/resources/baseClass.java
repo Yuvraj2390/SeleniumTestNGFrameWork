@@ -46,6 +46,7 @@ public class baseClass {
 		}else {
 			System.out.println("Please chose the browser first");
 		}
+		driver.manage().window().maximize();
 		
 	}
 	
